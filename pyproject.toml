@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trust-code"
+version = "1.0.0"
+description = "TRUST-CODE: evidence-based, deterministic verification of AI code reviews and AI-generated patches"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "pydantic>=2.6",
+  "pydantic-settings>=2.2",
+  "networkx>=3.2",
+  "numpy>=1.26",
+  "scikit-learn>=1.4",
+  "tiktoken>=0.6",
+  "GitPython>=3.1",
+  "pytest>=8.0",
+  "bandit>=1.7",
+  "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.32", "pandas>=2.0"]
+polyglot = ["tree-sitter>=0.21", "tree-sitter-languages>=1.10"]
+nlp = ["spacy>=3.7"]
+retrieval = ["langchain-text-splitters>=0.2", "faiss-cpu>=1.8"]
+sandbox = ["docker>=7.0"]
+distributed = ["celery>=5.3", "redis>=5.0"]
+sast = ["semgrep>=1.60"]
+all = ["trust-code[dashboard,polyglot,nlp,retrieval,sandbox,distributed]"]
+
+[project.scripts]
+trustcode = "src.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["src*", "config*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"

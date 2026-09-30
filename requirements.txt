@@ -1,0 +1,25 @@
+# Core (required)
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+pydantic-settings>=2.2
+networkx>=3.2
+numpy>=1.26
+scikit-learn>=1.4
+tiktoken>=0.6
+GitPython>=3.1
+pytest>=8.0
+bandit>=1.7
+httpx>=0.27
+
+# Dev console
+streamlit>=1.32
+pandas>=2.0
+
+# Optional heterogeneous evidence / infrastructure (auto-detected when installed)
+# semgrep>=1.60              # extra SAST source (Linux/macOS)
+# tree-sitter-languages>=1.10  # polyglot ASTs
+# spacy>=3.7                 # claim NLP
+# langchain-text-splitters>=0.2 faiss-cpu>=1.8   # spec chunking / vector store
+# docker>=7.0                # container sandbox (set TRUSTCODE_SANDBOX_BACKEND=docker)
+# celery>=5.3 redis>=5.0     # distributed jobs (set TRUSTCODE_REDIS_URL)

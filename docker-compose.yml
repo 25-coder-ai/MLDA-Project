@@ -1,0 +1,27 @@
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      TRUSTCODE_REDIS_URL: redis://redis:6379/0
+    depends_on: [redis]
+
+  worker:
+    build: .
+    command: celery -A src.worker worker --loglevel=info --concurrency=2
+    environment:
+      TRUSTCODE_REDIS_URL: redis://redis:6379/0
+      # Run untrusted code in sibling containers (gVisor recommended):
+      # TRUSTCODE_SANDBOX_BACKEND: docker
+      # TRUSTCODE_DOCKER_RUNTIME: runsc
+    # volumes: ["/var/run/docker.sock:/var/run/docker.sock"]   # required for the docker sandbox backend
+    depends_on: [redis]
+
+  dashboard:
+    build: .
+    command: streamlit run src/ui/dashboard.py --server.address 0.0.0.0 --server.port 8501
+    ports: ["8501:8501"]
